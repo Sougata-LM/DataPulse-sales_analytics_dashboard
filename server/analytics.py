@@ -120,7 +120,7 @@ def get_revenue_trend(df: pd.DataFrame, period: str = "monthly") -> list:
     if "date" not in df.columns or "revenue" not in df.columns:
         return []
 
-    freq = "ME" if period == "monthly" else "W"
+    freq = "M" if period == "monthly" else "W"
     label_fmt = "%b %Y" if period == "monthly" else "%d %b"
 
     trend = df.resample(freq, on="date")["revenue"].agg(["sum", "count", "mean"]).reset_index()
@@ -222,7 +222,7 @@ def get_forecast(df: pd.DataFrame, periods: int = 6) -> dict:
     if "date" not in df.columns or "revenue" not in df.columns:
         return {"historical": [], "forecast": []}
 
-    monthly = df.resample("ME", on="date")["revenue"].sum().reset_index()
+    monthly = df.resample("M", on="date")["revenue"].sum().reset_index()
     monthly.columns = ["date", "revenue"]
 
     if len(monthly) < 3:
